@@ -1,0 +1,309 @@
+{
+	"info": {
+		"_postman_id": "ec5a88a4-b1d5-4c8b-8868-0b80d35b556d",
+		"name": "GP_Hakathon",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{     \n    \"first_name\":\"atiqul\", \n    \"last_name\":\"haque\",\n    \"password\":\"123456\",\n    \"email\":\"karim@gmail.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/register",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"jsonData = pm.response.json();",
+							"pm.environment.set(\"access_token\", jsonData.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{     \n    \"password\":\"123456\",\n    \"email\":\"karim@gmail.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/logout?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC90ZXN0LWFwaS50ZXN0XC9hcGlcL2xvZ2luIiwiaWF0IjoxNjA4MzY4MTM3LCJleHAiOjE2MDgzNzE3MzcsIm5iZiI6MTYwODM2ODEzNywianRpIjoiQWVJMFhEQ1plWHdkb25rNCIsInN1YiI6MSwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.zVq4UGE_P7zwUTUhDeYUkrExTM2RLWXxnYCfhXUPrKE",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"logout"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC90ZXN0LWFwaS50ZXN0XC9hcGlcL2xvZ2luIiwiaWF0IjoxNjA4MzY4MTM3LCJleHAiOjE2MDgzNzE3MzcsIm5iZiI6MTYwODM2ODEzNywianRpIjoiQWVJMFhEQ1plWHdkb25rNCIsInN1YiI6MSwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.zVq4UGE_P7zwUTUhDeYUkrExTM2RLWXxnYCfhXUPrKE"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllRooms",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/rooms?token={{access_token}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"rooms"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "{{access_token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "booking list",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"type": "text",
+						"value": ""
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/booking/list?token={{access_token}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"booking",
+						"list"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "{{access_token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Book Room",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{     \n    \"room_id\":1, \n   \n    \"room_number\":1, \n    \"arrival\":\"2020-12-20\",\n    \"checkout\":\"2020-12-22\",\n    \"book_type\":1,\n    \"book_time\":\"2020-12-22\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/book/room?token={{access_token}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"book",
+						"room"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "{{access_token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CheckIn",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"type": "text",
+						"value": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"room_id\" : 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/checkin?token={{access_token}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"checkin"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "{{access_token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CheckOut",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"room_id\" : 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/checkout?token={{access_token}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"checkout"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "{{access_token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "payment",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"booking_ids\" : 1,\n    \"amount\" : 4000.20\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/booking/payment?token={{access_token}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"booking",
+						"payment"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "{{access_token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

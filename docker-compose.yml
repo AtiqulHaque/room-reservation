@@ -1,0 +1,103 @@
+version: '3'
+services:
+
+  #PHP Service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: digitalocean.com/php
+    container_name: app
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - app-network
+
+  #Nginx Service
+  webserver:
+    image: nginx:alpine
+    container_name: webserver
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "8000:80"
+      - "443:443"
+    volumes:
+      - ./:/var/www
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - app-network
+    links:
+      - "db_my"
+  #MySQL Service
+  db_my:
+    image: mysql:5.7.22
+    container_name: db_my
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: laravel
+      MYSQL_ROOT_PASSWORD: your_mysql_root_password
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - dbdata:/var/lib/mysql/
+      - ./mysql/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - app-network
+  redis:
+    container_name: redis
+    image: redis:4.0
+    command: ["redis-server", "--appendonly", "yes"]
+    hostname: redis
+    ports:
+      - "6382:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - app-network
+  client:
+    stdin_open: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    build:
+      dockerfile: Dockerfile
+      context: ./client
+    volumes:
+      - './:/app'
+      - '/app/node_modules'
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+    command: npm start
+
+  adminer:
+    image: adminer
+    restart: always
+    depends_on:
+      - db_my
+    environment:
+      ADMINER_DESIGN: arcs-material
+    ports:
+      - "8085:8080"
+    networks:
+      - app-network
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
+#Volumes
+volumes:
+  dbdata:
+    driver: local
+  redis-data:
