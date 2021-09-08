@@ -46,10 +46,22 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
         $this->pushCriteria(app(RequestCriteria::class));
     }
 
-    public function createUser(array $params = array())
+    public function createOrFetchUser(array $params = array())
     {
-        return $this->create(
-           array_merge( $params,  ["password" => bcrypt($params['password'])])
-           );
+        $user = $this->getUserByEmail($params['email']);
+        if ($user) {
+            $user->fill($params);
+            $user->save();
+
+        } else {
+            $user = $this->model->create($params);
+        }
+
+        return $user;
+    }
+
+    private function getUserByEmail($email)
+    {
+        return $this->model->where('email', $email)->first();
     }
 }

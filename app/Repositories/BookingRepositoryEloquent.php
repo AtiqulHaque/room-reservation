@@ -3,6 +3,8 @@
 namespace App\Repositories;
 
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use App\Contracts\BookingRepository;
@@ -27,17 +29,6 @@ class BookingRepositoryEloquent extends BaseRepository implements BookingReposit
     }
 
     /**
-    * Specify Validator class name
-    *
-    * @return mixed
-    */
-    public function validator()
-    {
-
-    }
-
-
-    /**
      * Boot up the repository, pushing criteria
      */
     public function boot()
@@ -47,35 +38,35 @@ class BookingRepositoryEloquent extends BaseRepository implements BookingReposit
 
     public function bookRoom(array $params = array())
     {
-       return $this->create($params);
-    }
+        DB::beginTransaction();
+        $reservation = null;
+        try{
+            $reservation = $this->model->where('isBooked', Booking::IS_FREE)
+                ->whereIn('reservation_date', $params['reservation_date'])
+                ->lockForUpdate()
+                ->get();
+            //sleep(20);
+            if(!empty($reservation) && $reservation instanceof Collection && $reservation->count() > 0){
+                $reservation->each(function ($eachData) use ($params){
+                    $eachData->user_id = $params['user_id'];
+                    $eachData->booking_date = Carbon::now();
+                    $eachData->isBooked = Booking::IS_BOOKED;
+                    $eachData->save();
 
-    public function checkIn($roomId, $userId)
-    {
-        $room = $this->model->where('user_id', $userId)
-            ->where('room_id', $roomId)
-            ->first();
+                });
 
-        if(empty($room)){
-            return false;
+            }
+
+        } catch(\Exception $e){
+            DB::rollBack();
         }
-        $room->arrival =  Carbon::now();
-        return $room->save();
 
+        DB::commit();
+
+        return $reservation;
     }
 
-    public function checkOut($roomId, $userId)
-    {
-        $room = $this->model->where('user_id', $userId)
-            ->where('room_id', $roomId)
-            ->first();
 
-        if(empty($room)){
-            return false;
-        }
-        $room->checkout =  Carbon::now();
-        return $room->save();
-    }
 
     public function bookingDetails($bookingId)
     {
@@ -92,10 +83,14 @@ class BookingRepositoryEloquent extends BaseRepository implements BookingReposit
         ])->paginate();
     }
 
-    public function bookingDetailsByRoomId($roomId, $userId)
+    public function bookingDetailsById($bookingId)
     {
-        return $this->model->where('user_id', $userId)
-            ->where('room_id', $roomId)
+        return $this->model->where('id', $bookingId)
             ->first();
+    }
+
+    public function getBookingListByMonth($startDate = null)
+    {
+       return $this->all();
     }
 }

@@ -11,8 +11,7 @@ class UserValidator extends AbstractLaravelValidator
         $this->rules = array(
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'required|unique:users,email',
-            'password' => 'required',
+            'email' => 'required|email',
         );
     }
 

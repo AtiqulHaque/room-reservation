@@ -9,23 +9,15 @@ class BookingValidator extends AbstractLaravelValidator
     public function setBookingRules()
     {
         $this->rules = array(
-            'room_id' => 'required',
-            'user_id' => 'required',
-            'room_number' => 'required',
-        );
-    }
-    public function setCherckIn()
-    {
-        $this->rules = array(
-            'room_id' => 'required',
+            'reservation_date' => 'required|array',
             'user_id' => 'required'
         );
     }
-    public function setCherckOut()
+
+    public function setBookingDetailsRules()
     {
         $this->rules = array(
-            'room_id' => 'required',
-            'user_id' => 'required'
+            'booking_id' => 'required|digits_between:1,1000000000'
         );
     }
 

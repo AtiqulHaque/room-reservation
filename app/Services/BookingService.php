@@ -1,12 +1,10 @@
 <?php
 
-
 namespace App\Services;
-
 
 use App\Contracts\BookingRepository;
 use App\Contracts\Service\BookingServiceContract;
-use App\Contracts\Service\RoomServiceContarct;
+use App\Contracts\Service\UserServiceContract;
 use App\Validators\BookingValidator;
 
 class BookingService implements BookingServiceContract
@@ -19,28 +17,37 @@ class BookingService implements BookingServiceContract
      * @var BookingValidator
      */
     private $validator;
-    /**
-     * @var RoomServiceContarct
-     */
-    private $roomService;
+
     /**
      * @var BookingServiceContract
      */
     private $bookService;
+    /**
+     * @var UserServiceContract
+     */
+    private $userService;
 
-    public function __construct(BookingRepository $bookingRepo,
+    public function __construct(
+        BookingRepository $bookingRepo,
         BookingValidator $validator,
-        RoomServiceContarct $roomService
-    )
-    {
+        UserServiceContract $userService
+    ) {
         $this->bookingRepo = $bookingRepo;
-        $this->roomService = $roomService;
+        $this->userService = $userService;
 
         $this->validator = $validator;
     }
 
     public function bookRoom(array $params = array())
     {
+        $requestUser = $this->userService->createOrFetchUser($params);
+
+        if (!empty($requestUser) && $requestUser['status'] != 'success') {
+            return $requestUser;
+        }
+
+        $params = array_merge($params, ['user_id' => $requestUser['data']->id]);
+
         $this->validator->setBookingRules();
 
         if (!$this->validator->with($params)->passes()) {
@@ -51,33 +58,42 @@ class BookingService implements BookingServiceContract
             ];
         }
 
-        $roomDetails = $this->roomService->roomDetails($params['room_id']);
+        $reservationDetails = $this->bookingRepo->bookRoom($params);
 
-        $params = array_merge($params, ['room_number'=> $roomDetails->roomNumber]);
+        $responseResult = $response = array();
 
-        $params = $this->bookingRepo->bookRoom($params);
+        foreach ($reservationDetails as $eachReservation) {
+            $responseResult[$eachReservation->reservation_date] = $eachReservation->reservation_date;
+        }
 
-        if(!empty($params)){
+
+        foreach ($params['reservation_date'] as $eachDate) {
+            if (!empty($responseResult[$eachDate])) {
+                $response[$eachDate] = true;
+            } else {
+                $response[$eachDate] = false;
+            }
+        }
+
+
+        if (!empty($reservationDetails)) {
             return [
                 "status" => 'success',
-                'data' => $params
+                'data'   => $response
             ];
-        } else{
+        } else {
             return [
                 "status" => 'error',
-                'data' => $params
+                'data'   => $response
             ];
         }
     }
 
-    public function checkIn($roomId, $userId)
+    public function getBookingDetails($params)
     {
-        $this->validator->setCherckIn();
+        $this->validator->setBookingDetailsRules();
 
-        if (!$this->validator->with([
-            'room_id' => $roomId,
-            'user_id' => $userId
-        ])->passes()) {
+        if (!$this->validator->with($params)->passes()) {
             return [
                 'html'   => "Booking validation errors",
                 'status' => 'validation-error',
@@ -85,98 +101,35 @@ class BookingService implements BookingServiceContract
             ];
         }
 
-        $response = $this->bookingRepo->checkIn($roomId, $userId);
 
-        if(!empty($response)){
+        $responseBooking = $this->bookingRepo->bookingDetailsById($params['booking_id']);
+
+        if (!empty($responseBooking)) {
             return [
                 "status" => 'success',
-                'data' => $response
+                'data'   => $responseBooking
             ];
-        } else{
+        } else {
             return [
                 "status" => 'error',
-                'data' => $response
+                'html'   => "invalid booking id"
             ];
         }
     }
 
-    public function checkOut($roomId, $userId)
+    public function getBookingListByMonth($startDate = null)
     {
-        $this->validator->setCherckOut();
-
-        if (!$this->validator->with([
-            'room_id' => $roomId,
-            'user_id' => $userId
-        ])->passes()) {
-            return [
-                'html'   => "Booking validation errors",
-                'status' => 'validation-error',
-                'error'  => $this->validator->errors()->messages()
-            ];
-        }
-
-        $details = $this->bookingRepo->bookingDetailsByRoomId($roomId, $userId);
-
-        if(!empty($details)){
-            $payment = $this->bookingRepo->find($details->id);
-            if(empty($payment) ){
-                return [
-                    "status" => 'error',
-                    'html' => "Need to pay the Payment "
-                ];
-            }
-
-            if($payment->isFullPayment == 0){
-                return [
-                    "status" => 'error',
-                    'html' => "Need to pay the pertial Payment"
-                ];
-            }
-        }
-
-        $response = $this->bookingRepo->checkOut($roomId, $userId);
-
-        if(!empty($response)){
+        if($result = $this->bookingRepo->getBookingListByMonth($startDate)){
             return [
                 "status" => 'success',
-                'data' => $response
+                'data'   => $this->bookingRepo->getBookingListByMonth($startDate)
             ];
-        } else{
-            return [
-                "status" => 'success',
-                'data' => $response
-            ];
-        }
-    }
-
-    public function getBookingDetails($bookingId)
-    {
-
-        $responseBooking = $this->bookingRepo->bookingDetails($bookingId);
-
-        if(!empty($responseBooking)){
-            return [
-                "status" => 'success',
-                'data' => $responseBooking
-            ];
-        } else{
+        } else {
             return [
                 "status" => 'error',
-                'html' => "invalid booking id"
+                'data'   => []
             ];
         }
-    }
 
-    public function bookingList()
-    {
-        return [
-            "status" => 'success',
-            'data' => $this->bookingRepo->getBookingList()
-        ];
-    }
-
-    public function getBookingDetailsByRoomId($roomId, $userId)
-    {
-        return $this->bookingRepo->bookingDetailsByRoomId($roomId, $userId);
     }
 }

@@ -13,13 +13,8 @@ interface BookingRepository extends RepositoryInterface
 {
     public function bookRoom(array $params = array());
 
-    public function checkIn($roomId, $userId);
+    public function getBookingListByMonth($startDate = null);
 
-    public function checkOut($roomId, $userId);
+    public function bookingDetailsById($bookingId);
 
-    public function bookingDetails($bookingId);
-
-    public function bookingDetailsByRoomId($roomId, $userId);
-
-    public function getBookingList();
 }

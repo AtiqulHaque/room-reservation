@@ -16,6 +16,7 @@ trait ApiResponse
      * @param int $code
      * @return Response
      */
+
     public function sendApiResponse($message, $result = null, $code = Response::HTTP_OK)
     {
         $response = [

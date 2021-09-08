@@ -16,6 +16,8 @@ class Booking extends Model implements Transformable
 {
     use TransformableTrait;
 
+    const IS_BOOKED = true;
+    const IS_FREE = false;
     /**
      * The attributes that are mass assignable.
      *

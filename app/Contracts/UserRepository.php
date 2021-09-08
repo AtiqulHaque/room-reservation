@@ -6,5 +6,5 @@ use Prettus\Repository\Contracts\RepositoryInterface;
 
 interface UserRepository extends RepositoryInterface
 {
-    public function createUser( array $params = array());
+    public function createOrFetchUser( array $params = array());
 }

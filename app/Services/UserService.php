@@ -22,7 +22,7 @@ class UserService implements  UserServiceContract
         $this->validator = $validator;
     }
 
-    public function createUser($params)
+    public function createOrFetchUser($params)
     {
         $this->validator->setRegisterRules();
 
@@ -34,7 +34,7 @@ class UserService implements  UserServiceContract
             ];
         }
 
-        $responseUser = $this->userRepository->createUser($params);
+        $responseUser = $this->userRepository->createOrFetchUser($params);
 
         if(!empty($responseUser)){
             return [
