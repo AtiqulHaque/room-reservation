@@ -21,13 +21,8 @@ class Booking extends Model implements Transformable
      *
      * @var array
      */
-    protected $fillable = ['room_id', 'user_id', 'room_number', 'arrival', 'checkout', 'book_type', 'book_time'];
+    protected $fillable = ['user_id', 'isBooked', 'reservation_date', 'booking_date'];
 
-
-    public function room()
-    {
-        return $this->belongsTo(Room::class,'room_id', 'id');
-    }
 
     public function user()
     {

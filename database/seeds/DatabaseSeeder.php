@@ -1,7 +1,9 @@
 <?php
 
+use App\Models\Booking;
 use App\Models\Room;
 use App\User;
+use Carbon\Carbon;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -16,12 +18,17 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         DB::statement('SET FOREIGN_KEY_CHECKS = 0');
-        Room::create([
-            "roomNumber" => "11-BAN-1452",
-            "price" => "5000",
-            'maxPerson' => "5",
-            "roomType" => "1"
-        ]);
+
+
+
+        $date = Carbon::now();
+
+        for($i = 0; $i < 365; $i++){
+            $date = $date->addDay();
+            Booking::create([
+                "reservation_date" => $date
+            ]);
+        }
 
 
 

@@ -15,7 +15,7 @@ class AddBookingTable extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
+            $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
@@ -23,7 +23,7 @@ class AddBookingTable extends Migration
 
             $table->boolean('isBooked')->default(false);
             $table->date('reservation_date');
-            $table->dateTime('booking_date');
+            $table->dateTime('booking_date')->nullable();
             $table->timestamps();
         });
     }
