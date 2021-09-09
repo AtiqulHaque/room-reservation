@@ -75,6 +75,7 @@ class BookingsController extends BaseController
     {
 
         $data = $this->bookService->bookRoom($request->all());
+
         if (!empty($data['status']) && $data['status'] == 'validation-error') {
             return $this->sendApiValidationError($data['error']);
         }

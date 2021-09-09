@@ -1,0 +1,96 @@
+{
+	"info": {
+		"_postman_id": "8e71bbc6-3369-4cbb-afcd-de7750a5a5ed",
+		"name": "Room_Reservation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Book room",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{     \n    \"first_name\":\"atiqul\", \n    \"last_name\":\"haque\",\n    \"email\":\"karim@gmail.com\",\n    \"reservation_date\" :[\"2021-09-20\"] \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/book/room",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"book",
+						"room"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Availabe list",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/booking/list",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"booking",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Availabilty check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/booking/list",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"booking",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BookingDetails",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/booking/4",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"booking",
+						"4"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

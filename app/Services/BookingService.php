@@ -145,11 +145,21 @@ class BookingService implements BookingServiceContract
                 'error'  => $this->validator->errors()->messages()
             ];
         }
-        $response = $this->bookingRepo->roomAvailabilityCheck($params);
+
+        $reservations = $this->bookingRepo->roomAvailabilityCheck($params);
+
+        $isAvaLabel = true;
+
+        foreach ($reservations as $eachReservation) {
+            if($eachReservation->isBooked){
+                $isAvaLabel = false;
+                break;
+            }
+        }
 
         return [
             "status" => 'success',
-            'data'   => ($response) ? "free" : "booked"
+            'data'   => ($isAvaLabel) ? "free" : "booked"
         ];
     }
 }

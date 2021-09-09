@@ -95,18 +95,7 @@ class BookingRepositoryEloquent extends BaseRepository implements BookingReposit
 
     public function roomAvailabilityCheck(array $params = array())
     {
-        $reservations = $this->model->whereIn('reservation_date', $params['reservation_date'])
+        return $this->model->whereIn('reservation_date', $params['reservation_date'])
             ->get();
-
-        $isAvaLabel = true;
-
-        foreach ($reservations as $eachReservation) {
-            if($eachReservation->isBooked){
-                $isAvaLabel = false;
-                break;
-            }
-        }
-
-        return $isAvaLabel;
     }
 }
