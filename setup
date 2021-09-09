@@ -3,7 +3,6 @@ docker run --rm -v $(pwd):/app composer install
 
 sudo chown -R $USER:$USER ./
 
-
 echo "Making .env file ..."
 cp .env.example .env
 
@@ -24,8 +23,4 @@ GENERATE_JWT_KEY="docker-compose exec app php artisan migrate --seed"
 echo "Generating table and seeds"
 
 $GENERATE_JWT_KEY
-
-
-
-
 
