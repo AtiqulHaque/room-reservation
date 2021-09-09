@@ -28,6 +28,12 @@ class BookingService implements BookingServiceContract
      */
     private $userService;
 
+    /**
+     * BookingService constructor.
+     * @param BookingRepository $bookingRepo
+     * @param BookingValidator $validator
+     * @param UserServiceContract $userService
+     */
     public function __construct(
         BookingRepository $bookingRepo,
         BookingValidator $validator,
@@ -39,6 +45,10 @@ class BookingService implements BookingServiceContract
         $this->validator = $validator;
     }
 
+    /**
+     * @param array $params
+     * @return array
+     */
     public function bookRoom(array $params = array())
     {
         $requestUser = $this->userService->createOrFetchUser($params);
@@ -71,11 +81,9 @@ class BookingService implements BookingServiceContract
             ];
         }
 
-
         foreach ($reservationDetails as $eachReservation) {
             $responseResult[$eachReservation->reservation_date] = $eachReservation->reservation_date;
         }
-
 
         foreach ($params['reservation_date'] as $eachDate) {
             if (!empty($responseResult[$eachDate])) {
@@ -90,6 +98,10 @@ class BookingService implements BookingServiceContract
         ];
     }
 
+    /**
+     * @param $params
+     * @return array
+     */
     public function getBookingDetails($params)
     {
         $this->validator->setBookingDetailsRules();
@@ -118,6 +130,10 @@ class BookingService implements BookingServiceContract
         }
     }
 
+    /**
+     * @param null $startDate
+     * @return array
+     */
     public function getBookingListByMonth($startDate = null)
     {
         if ($result = $this->bookingRepo->getBookingListByMonth($startDate)) {
@@ -134,6 +150,10 @@ class BookingService implements BookingServiceContract
 
     }
 
+    /**
+     * @param array $params
+     * @return array
+     */
     public function checkRoomAvailability(array $params = array())
     {
         $this->validator->setAvailabilityRules();

@@ -48,6 +48,10 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
         $this->pushCriteria(app(RequestCriteria::class));
     }
 
+    /**
+     * @param array $params
+     * @return mixed|null
+     */
     public function createOrFetchUser(array $params = array())
     {
         DB::beginTransaction();
@@ -71,6 +75,10 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
         return $user;
     }
 
+    /**
+     * @param $email
+     * @return mixed
+     */
     private function getUserByEmail($email)
     {
         return $this->model->where('email', $email)->first();

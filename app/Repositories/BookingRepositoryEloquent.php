@@ -35,6 +35,10 @@ class BookingRepositoryEloquent extends BaseRepository implements BookingReposit
         $this->pushCriteria(app(RequestCriteria::class));
     }
 
+    /**
+     * @param array $params
+     * @return Collection|mixed
+     */
     public function bookRoom(array $params = array())
     {
         DB::beginTransaction();
@@ -67,6 +71,10 @@ class BookingRepositoryEloquent extends BaseRepository implements BookingReposit
     }
 
 
+    /**
+     * @param $bookingId
+     * @return mixed
+     */
     public function bookingDetails($bookingId)
     {
         return $this->model->where('id', $bookingId)
@@ -74,6 +82,9 @@ class BookingRepositoryEloquent extends BaseRepository implements BookingReposit
             ->first();
     }
 
+    /**
+     * @return mixed
+     */
     public function getBookingList()
     {
         return $this->with([
@@ -82,17 +93,29 @@ class BookingRepositoryEloquent extends BaseRepository implements BookingReposit
         ])->paginate();
     }
 
+    /**
+     * @param $bookingId
+     * @return mixed
+     */
     public function bookingDetailsById($bookingId)
     {
         return $this->model->where('id', $bookingId)
             ->first();
     }
 
+    /**
+     * @param null $startDate
+     * @return mixed
+     */
     public function getBookingListByMonth($startDate = null)
     {
         return $this->all();
     }
 
+    /**
+     * @param array $params
+     * @return mixed
+     */
     public function roomAvailabilityCheck(array $params = array())
     {
         return $this->model->whereIn('reservation_date', $params['reservation_date'])

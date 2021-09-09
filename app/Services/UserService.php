@@ -22,6 +22,10 @@ class UserService implements  UserServiceContract
         $this->validator = $validator;
     }
 
+    /**
+     * @param $params
+     * @return array|mixed
+     */
     public function createOrFetchUser($params)
     {
         $this->validator->setRegisterRules();

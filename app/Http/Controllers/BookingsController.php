@@ -69,6 +69,8 @@ class BookingsController extends BaseController
      *          description="Forbidden"
      *      )
      * )
+     * @param Request $request
+     * @return \Illuminate\Http\Response
      */
 
     public function bookingRoom(Request $request)
@@ -86,7 +88,6 @@ class BookingsController extends BaseController
 
         return $this->sendApiError($data['html']);
     }
-
 
 
     /**
@@ -118,6 +119,8 @@ class BookingsController extends BaseController
      *          description="Forbidden"
      *      )
      * )
+     * @param Request $request
+     * @return \Illuminate\Http\Response
      */
 
     public function checkRoomAvailable(Request $request)
@@ -152,6 +155,8 @@ class BookingsController extends BaseController
      *          description="Forbidden"
      *      )
      * )
+     * @param Request $request
+     * @return \Illuminate\Http\Response
      */
 
     public function bookingList(Request $request)
@@ -165,6 +170,29 @@ class BookingsController extends BaseController
         return $this->sendApiError($data['html']);
     }
 
+    /**
+     * @OA\Get(
+     *      path="/booking/list",
+     *      operationId="bookinglist",
+     *      tags={"Booking"},
+     *      summary="Room booking list",
+     *      description="Room booking list",
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
+     * @param $booking_id
+     * @return \Illuminate\Http\Response
+     */
     public function bookingDetails($booking_id)
     {
         $data = $this->bookService->getBookingDetails(['booking_id' => $booking_id]);
