@@ -17,10 +17,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+
+        Schema::disableForeignKeyConstraints();
+        \DB::table('bookings')->truncate();
+        Schema::enableForeignKeyConstraints();
+
+
+
         DB::statement('SET FOREIGN_KEY_CHECKS = 0');
-
-
-
         $date = Carbon::now();
 
         for($i = 0; $i < 365; $i++){
