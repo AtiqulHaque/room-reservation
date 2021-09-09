@@ -28,6 +28,6 @@ class Booking extends Model implements Transformable
 
     public function user()
     {
-        return $this->belongsTo(User::class,'room_id', 'id');
+        return $this->belongsTo(User::class, 'room_id', 'id');
     }
 }

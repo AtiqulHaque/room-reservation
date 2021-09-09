@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\User;
@@ -36,18 +35,23 @@ class BaseController extends Controller
     }
 
 
-    protected function getSeoKeyWord($index = 'default'){
+    /**
+     * @param string $index
+     * @return array
+     */
+    protected function getSeoKeyWord($index = 'default')
+    {
         return [
             'meta_keyword'=>config('seo.'.$index.'.title'),
             'meta_description'=>config('seo.'.$index.'.description'),
         ];
     }
 
-    public function getExcerpt($text,$words_to_return = 150)
+    public function getExcerpt($text, $words_to_return = 150)
     {
-        $words_in_text = str_word_count($text,1);
-        $result = array_slice($words_in_text,0,$words_to_return);
-        return implode(" ",$result);
+        $words_in_text = str_word_count($text, 1);
+        $result = array_slice($words_in_text, 0, $words_to_return);
+        return implode(" ", $result);
     }
 
 }

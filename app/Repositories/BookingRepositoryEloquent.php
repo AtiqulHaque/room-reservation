@@ -7,6 +7,7 @@ use App\Models\Booking;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Log;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Eloquent\BaseRepository;
 
@@ -55,14 +56,12 @@ class BookingRepositoryEloquent extends BaseRepository implements BookingReposit
                     $eachData->booking_date = Carbon::now();
                     $eachData->isBooked = Booking::IS_BOOKED;
                     $eachData->save();
-
                 });
-
             }
 
         } catch (\Exception $e) {
             DB::rollBack();
-           \Log::error("Error occurred while booking", [$e]);
+            Log::error("Error occurred while booking", [$e]);
         }
 
         DB::commit();

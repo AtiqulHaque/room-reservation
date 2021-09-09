@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Validators;
-
 
 class BookingValidator extends AbstractLaravelValidator
 {

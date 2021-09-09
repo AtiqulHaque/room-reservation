@@ -147,7 +147,6 @@ class BookingService implements BookingServiceContract
                 'data'   => []
             ];
         }
-
     }
 
     /**
@@ -171,7 +170,7 @@ class BookingService implements BookingServiceContract
         $isAvaLabel = true;
 
         foreach ($reservations as $eachReservation) {
-            if($eachReservation->isBooked){
+            if ($eachReservation->isBooked) {
                 $isAvaLabel = false;
                 break;
             }

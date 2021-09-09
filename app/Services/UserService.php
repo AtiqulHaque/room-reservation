@@ -1,14 +1,11 @@
 <?php
-
-
 namespace App\Services;
-
 
 use App\Contracts\Service\UserServiceContract;
 use App\Contracts\UserRepository;
 use App\Validators\UserValidator;
 
-class UserService implements  UserServiceContract
+class UserService implements UserServiceContract
 {
 
     /**
@@ -40,17 +37,16 @@ class UserService implements  UserServiceContract
 
         $responseUser = $this->userRepository->createOrFetchUser($params);
 
-        if(!empty($responseUser)){
+        if (!empty($responseUser)) {
             return [
                 "status" => 'success',
                 'data' => $responseUser
             ];
-        } else{
+        } else {
             return [
                 "status" => 'error',
                 'data' => $responseUser
             ];
         }
-
     }
 }

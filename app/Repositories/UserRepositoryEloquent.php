@@ -30,17 +30,6 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
     }
 
     /**
-    * Specify Validator class name
-    *
-    * @return mixed
-    */
-    public function validator()
-    {
-
-    }
-
-
-    /**
      * Boot up the repository, pushing criteria
      */
     public function boot()
@@ -56,7 +45,7 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
     {
         DB::beginTransaction();
         $user = null;
-        try{
+        try {
             $user = $this->getUserByEmail($params['email']);
             if ($user) {
                 $user->fill($params);
@@ -65,7 +54,7 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
             } else {
                 $user = $this->model->create($params);
             }
-        } catch (Exception $e){
+        } catch (Exception $e) {
             DB::rollBack();
             \Log::error("Error occurred while booking", [$e]);
         }

@@ -2,6 +2,14 @@
 
 namespace App\Providers;
 
+use App\Contracts\Service\BookingServiceContract;
+use App\Contracts\Service\PaymentServiceContract;
+use App\Contracts\Service\RoomServiceContarct;
+use App\Contracts\Service\UserServiceContract;
+use App\Services\BookingService;
+use App\Services\PaymentService;
+use App\Services\RoomService;
+use App\Services\UserService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,10 +21,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(\App\Contracts\Service\RoomServiceContarct::class, \App\Services\RoomService::class);
-        $this->app->bind(\App\Contracts\Service\PaymentServiceContract::class, \App\Services\PaymentService::class);
-        $this->app->bind(\App\Contracts\Service\BookingServiceContract::class, \App\Services\BookingService::class);
-        $this->app->bind(\App\Contracts\Service\UserServiceContract::class, \App\Services\UserService::class);
+        $this->app->bind(BookingServiceContract::class, BookingService::class);
+        $this->app->bind(UserServiceContract::class, UserService::class);
     }
 
     /**

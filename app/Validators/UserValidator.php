@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Validators;
-
 
 class UserValidator extends AbstractLaravelValidator
 {

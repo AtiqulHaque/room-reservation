@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Contracts\BookingRepository;
+use App\Contracts\UserRepository;
+use App\Repositories\BookingRepositoryEloquent;
+use App\Repositories\UserRepositoryEloquent;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -23,10 +27,8 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->bind(\App\Contracts\BookingRepository::class, \App\Repositories\BookingRepositoryEloquent::class);
-        $this->app->bind(\App\Contracts\RoomRepository::class, \App\Repositories\RoomRepositoryEloquent::class);
-        $this->app->bind(\App\Contracts\PaymentsRepository::class, \App\Repositories\PaymentsRepositoryEloquent::class);
-        $this->app->bind(\App\Contracts\UserRepository::class, \App\Repositories\UserRepositoryEloquent::class);
+        $this->app->bind(BookingRepository::class, BookingRepositoryEloquent::class);
+        $this->app->bind(UserRepository::class, UserRepositoryEloquent::class);
         //:end-bindings:
     }
 }
