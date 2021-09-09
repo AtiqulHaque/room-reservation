@@ -6,6 +6,7 @@ use App\Contracts\BookingRepository;
 use App\Contracts\Service\BookingServiceContract;
 use App\Contracts\Service\UserServiceContract;
 use App\Validators\BookingValidator;
+use Illuminate\Support\Collection;
 
 class BookingService implements BookingServiceContract
 {
@@ -62,6 +63,15 @@ class BookingService implements BookingServiceContract
 
         $responseResult = $response = array();
 
+        if (!empty($reservationDetails) && $reservationDetails instanceof Collection
+            && $reservationDetails->count() == 0) {
+            return [
+                "status" => 'error',
+                'data'   => $response
+            ];
+        }
+
+
         foreach ($reservationDetails as $eachReservation) {
             $responseResult[$eachReservation->reservation_date] = $eachReservation->reservation_date;
         }
@@ -74,19 +84,10 @@ class BookingService implements BookingServiceContract
                 $response[$eachDate] = false;
             }
         }
-
-
-        if (!empty($reservationDetails)) {
-            return [
-                "status" => 'success',
-                'data'   => $response
-            ];
-        } else {
-            return [
-                "status" => 'error',
-                'data'   => $response
-            ];
-        }
+        return [
+            "status" => 'success',
+            'data'   => $response
+        ];
     }
 
     public function getBookingDetails($params)
@@ -119,7 +120,7 @@ class BookingService implements BookingServiceContract
 
     public function getBookingListByMonth($startDate = null)
     {
-        if($result = $this->bookingRepo->getBookingListByMonth($startDate)){
+        if ($result = $this->bookingRepo->getBookingListByMonth($startDate)) {
             return [
                 "status" => 'success',
                 'data'   => $this->bookingRepo->getBookingListByMonth($startDate)

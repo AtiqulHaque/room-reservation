@@ -4,6 +4,8 @@ namespace App\Repositories;
 
 use App\Contracts\UserRepository;
 use App\User;
+use Exception;
+use Illuminate\Support\Facades\DB;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use App\Contracts\RoomRepository;
@@ -48,14 +50,23 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
 
     public function createOrFetchUser(array $params = array())
     {
-        $user = $this->getUserByEmail($params['email']);
-        if ($user) {
-            $user->fill($params);
-            $user->save();
+        DB::beginTransaction();
+        $user = null;
+        try{
+            $user = $this->getUserByEmail($params['email']);
+            if ($user) {
+                $user->fill($params);
+                $user->save();
 
-        } else {
-            $user = $this->model->create($params);
+            } else {
+                $user = $this->model->create($params);
+            }
+        } catch (Exception $e){
+            DB::rollBack();
+            \Log::error("Error occurred while booking", [$e]);
         }
+
+        DB::commit();
 
         return $user;
     }
