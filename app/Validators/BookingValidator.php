@@ -14,10 +14,10 @@ class BookingValidator extends AbstractLaravelValidator
         );
     }
 
-    public function setBookingDetailsRules()
+    public function setAvailabilityRules()
     {
         $this->rules = array(
-            'booking_id' => 'required|digits_between:1,1000000000'
+            'reservation_date' => 'required|array'
         );
     }
 

@@ -8,5 +8,7 @@ interface BookingServiceContract
 
     public function bookRoom(array $params = array());
 
+    public function checkRoomAvailability(array $params = array());
+
     public function getBookingDetails($params);
 }

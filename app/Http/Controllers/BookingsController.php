@@ -87,6 +87,54 @@ class BookingsController extends BaseController
     }
 
 
+
+    /**
+     * @OA\Post(
+     *      path="/booking",
+     *      operationId="Booking",
+     *      tags={"Booking"},
+     *      summary="Room book in",
+     *      description="Room book in",
+     *      * @OA\RequestBody(
+     *          required=true,
+     *          description="Pass user credentials",
+     *          @OA\JsonContent(
+     *                  required={"room_id","user_id"},
+     *                  @OA\Property(property="room_id", type="string", example="rooom id"),
+     *                  @OA\Property(property="user_id", type="string", example="15471"),
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
+     */
+
+    public function checkRoomAvailabe(Request $request)
+    {
+
+        $data = $this->bookService->bookRoom($request->all());
+        if (!empty($data['status']) && $data['status'] == 'validation-error') {
+            return $this->sendApiValidationError($data['error']);
+        }
+
+        if (!empty($data['status']) && $data['status'] == 'success') {
+            return $this->sendApiResponse("Success", $data['data']);
+        }
+
+        return $this->sendApiError($data['html']);
+    }
+
+
     /**
      * @OA\Get(
      *      path="/booking/list",

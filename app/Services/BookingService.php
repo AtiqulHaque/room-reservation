@@ -133,4 +133,22 @@ class BookingService implements BookingServiceContract
         }
 
     }
+
+    public function checkRoomAvailability(array $params = array())
+    {
+        $this->validator->setAvailabilityRules();
+
+        if (!$this->validator->with($params)->passes()) {
+            return [
+                'html'   => "Booking Availability validation errors",
+                'status' => 'validation-error',
+                'error'  => $this->validator->errors()->messages()
+            ];
+        }
+
+        return [
+            "status" => 'success',
+            'data'   => $this->bookingRepo->roomAvailabilityCheck($params)
+        ];
+    }
 }
