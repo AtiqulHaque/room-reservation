@@ -145,10 +145,11 @@ class BookingService implements BookingServiceContract
                 'error'  => $this->validator->errors()->messages()
             ];
         }
+        $response = $this->bookingRepo->roomAvailabilityCheck($params);
 
         return [
             "status" => 'success',
-            'data'   => $this->bookingRepo->roomAvailabilityCheck($params)
+            'data'   => ($response) ? "free" : "booked"
         ];
     }
 }

@@ -90,11 +90,11 @@ class BookingsController extends BaseController
 
     /**
      * @OA\Post(
-     *      path="/booking",
-     *      operationId="Booking",
-     *      tags={"Booking"},
-     *      summary="Room book in",
-     *      description="Room book in",
+     *      path="/check/room-available",
+     *      operationId="Booking available",
+     *      tags={"Booking available"},
+     *      summary="Room book available",
+     *      description="Room book available",
      *      * @OA\RequestBody(
      *          required=true,
      *          description="Pass user credentials",
@@ -119,19 +119,15 @@ class BookingsController extends BaseController
      * )
      */
 
-    public function checkRoomAvailabe(Request $request)
+    public function checkRoomAvailable(Request $request)
     {
+        $data = $this->bookService->checkRoomAvailability($request->all());
 
-        $data = $this->bookService->bookRoom($request->all());
         if (!empty($data['status']) && $data['status'] == 'validation-error') {
             return $this->sendApiValidationError($data['error']);
         }
 
-        if (!empty($data['status']) && $data['status'] == 'success') {
-            return $this->sendApiResponse("Success", $data['data']);
-        }
-
-        return $this->sendApiError($data['html']);
+        return $this->sendApiResponse("Success", $data['data']);
     }
 
 
