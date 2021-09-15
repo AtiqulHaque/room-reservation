@@ -4,7 +4,7 @@ const initialState = {
     loading: false,
     reservations: [],
     isAvailable: false,
-    buttonText: "Check Available",
+    buttonText: "Check Availability",
     message : ""
 
 };
@@ -30,8 +30,6 @@ export function booking(state = initialState, action) {
                 buttonText: action.payload.buttonText,
                 message: action.payload.message,
             });
-
-
 
         case BookingConstants.BOOKING_SUBMIT_LOADING:
             return Object.assign({}, state, {

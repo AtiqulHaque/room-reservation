@@ -58,22 +58,18 @@ class App extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
 
-        //VALIDATE
-        var errors = [];
+        let errors = [];
 
-        //firstname
         if (this.state.firstname === "") {
             errors.push("firstname");
         }
 
-        //lastname
         if (this.state.lastname === "") {
             errors.push("lastname");
         }
 
-        //email
         const expression = /\S+@\S+/;
-        var validEmail = expression.test(String(this.state.email).toLowerCase());
+        let validEmail = expression.test(String(this.state.email).toLowerCase());
 
         if (!validEmail) {
             errors.push("email");
@@ -112,12 +108,9 @@ class App extends React.Component {
                         firstname: "",
                         email: ""
                     });
-
                     this.props.resetDatePicker();
                     this.props.loadDashBoard();
                 });
-
-
             } else {
                 this.props.checkAvailable({
                     reservation_date: reservation_date
@@ -135,10 +128,10 @@ class App extends React.Component {
 
         let blockDates = [];
         this.props.reservations.map((data) => {
-            blockDates.push(new Date(data.reservation_date))
+            return blockDates.push(new Date(data.reservation_date))
         });
 
-        let mesg = "";
+        let tipMessage = "";
 
         if (this.props.message !== "") {
 
@@ -146,14 +139,14 @@ class App extends React.Component {
                 this.props.setMessage("")
             }, 5000);
 
-            mesg = <ShowMessage msg={this.props.message}/>
+            tipMessage = <ShowMessage msg={this.props.message}/>
         }
         return (
             <div className='App'>
 
                 <Container fluid="md">
 
-                    {mesg}
+                    {tipMessage}
 
                     <form ref={form => this.form = form} className="row">
                         <div className="col-lg-6 mt-2">
@@ -184,7 +177,7 @@ class App extends React.Component {
                                     this.hasError("daterange") ? "inline-errormsg" : "hidden"
                                 }
                             >
-                                Please select Start date and end date time
+                                Please select start date and end date time
                             </div>
                         </div>
 
@@ -267,12 +260,8 @@ class App extends React.Component {
 
 
 function mapStateToProps(state) {
-    const {loading} = state.booking;
-    const {startDate} = state.daterange;
-    const {endDate} = state.daterange;
-    const {focusedInput} = state.daterange;
-    const {reservations} = state.booking;
-    const {isAvailable, buttonText, message} = state.booking;
+    const {startDate, endDate, focusedInput} = state.daterange;
+    const {isAvailable, buttonText, message, reservations, loading} = state.booking;
     return {
         loading,
         reservations,

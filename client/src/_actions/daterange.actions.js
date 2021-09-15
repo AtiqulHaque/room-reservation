@@ -1,3 +1,6 @@
+
+import { DateRangeConstants } from '../_constants';
+
 export const dateRangeActions = {
     dateChange,
     focusChange,
@@ -5,19 +8,19 @@ export const dateRangeActions = {
 };
 
 const setFocusChange = data => ({
-    type: "focusChange",
+    type: DateRangeConstants.FOCUS_CHANGE,
     payload: data,
 });
 
 const setDateChange = data => ({
-    type: "dateChange",
+    type: DateRangeConstants.DATE_CHANGE,
     payload: data,
 });
 
 
 
 const resetDateRange = () => ({
-    type: "resetDateRange",
+    type: DateRangeConstants.RESET_DATE_RANGE,
     payload: {},
 });
 

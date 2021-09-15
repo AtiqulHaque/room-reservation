@@ -87,7 +87,7 @@ function bookRoom(params, callback) {
                         const error = (data && data.message) || response.statusText;
                         return Promise.reject(error);
                     }
-                    dispatch(bookSuccess(false, "Check Available", "Room has been successfully booked, Thanks"));
+                    dispatch(bookSuccess(false, "Check Availability", "Your room has been successfully booked, Thanks."));
                     callback();
                 });
             });
@@ -126,8 +126,8 @@ function checkAvailable(params) {
 
                     let isAvailable = (data.payload === 'free');
 
-                    let buttonText = (isAvailable) ? "Book Now" : "Check Available";
-                    let message = (isAvailable) ? "Yes you can Book Now" : "Already Booked";
+                    let buttonText = (isAvailable) ? "Book Now" : "Check Availability";
+                    let message = (isAvailable) ? "Yes you can Book Now." : "Sorry!! Room has been Already Booked.";
 
                     dispatch(checkAvailableSuccess(isAvailable, buttonText, message));
                 });

@@ -1,5 +1,4 @@
-import {reportConstants} from '../_constants';
-import axis from "axis.js";
+import {DateRangeConstants} from '../_constants';
 
 const initialState = {
     startDate: null,
@@ -11,13 +10,12 @@ const initialState = {
 
 export function daterange(state = initialState, action) {
     switch (action.type) {
-        case 'focusChange':
+        case DateRangeConstants.FOCUS_CHANGE:
             return {...state, focusedInput: action.payload};
-        case 'dateChange':
-            console.log(action);
+        case DateRangeConstants.DATE_CHANGE:
             return action.payload;
 
-        case 'resetDateRange':
+        case DateRangeConstants.RESET_DATE_RANGE:
             return Object.assign({}, state, {
                 startDate: null,
                 endDate: null,
