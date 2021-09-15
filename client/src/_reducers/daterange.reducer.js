@@ -16,6 +16,14 @@ export function daterange(state = initialState, action) {
         case 'dateChange':
             console.log(action);
             return action.payload;
+
+        case 'resetDateRange':
+            return Object.assign({}, state, {
+                startDate: null,
+                endDate: null,
+                focusedInput: null,
+            });
+
         default:
             return state;
     }

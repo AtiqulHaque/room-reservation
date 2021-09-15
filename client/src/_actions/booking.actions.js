@@ -9,35 +9,15 @@ export const booking = {
 
 const BASE_URL = "http://localhost:8000/api/";
 
-
-function handleResponse(response) {
-    return response.text().then(text => {
-        const data = text && JSON.parse(text);
-
-
-        if (!response.ok) {
-
-            if ([401, 403, 500].indexOf(response.status) !== -1) {
-
-            }
-
-         //   return Promise.reject(error);
-        }
-
-        return data;
-    });
-}
-
-
 const getBookingListSuccess = lists => ({
     type: BookingConstants.BOOKING_LIST_SUCCESS,
     payload: lists,
 });
 
 
-const bookSuccess = (isAvailable, buttonText) => ({
+const bookSuccess = (isAvailable, buttonText, message) => ({
     type: BookingConstants.BOOKING_SUBMIT_SUCCESS,
-    payload: {isAvailable, buttonText},
+    payload: {isAvailable, buttonText, message},
 });
 const checkAvailableSuccess = (isAvailable, buttonText, message) => ({
     type: BookingConstants.AVAILABLE_SUCCESS,
@@ -53,6 +33,11 @@ const checkAvailableLodaing = (buttonText) => ({
 const setMessageText = (msg) => ({
     type: BookingConstants.MESSAGE_SET,
     payload: {message : msg},
+});
+
+const setButtonText = (msg) => ({
+    type: BookingConstants.BOOKING_SUBMIT_LOADING,
+    payload: {buttonText : msg},
 });
 
 function loadDashboard() {
@@ -71,7 +56,7 @@ function setMessage(msg) {
     };
 }
 
-function bookRoom(params) {
+function bookRoom(params, callback) {
 
     const requestOptions = {
         method: 'POST',
@@ -90,6 +75,9 @@ function bookRoom(params) {
 
 
     return dispatch => {
+
+        dispatch(setButtonText("Please wait & Processing...."));
+
         fetch(BASE_URL + "book/room", requestOptions)
             .then(response => {
                 return response.text().then(text => {
@@ -99,8 +87,8 @@ function bookRoom(params) {
                         const error = (data && data.message) || response.statusText;
                         return Promise.reject(error);
                     }
-
-                    dispatch(bookSuccess(false, "Check Available"));
+                    dispatch(bookSuccess(false, "Check Available", "Room has been successfully booked, Thanks"));
+                    callback();
                 });
             });
     };

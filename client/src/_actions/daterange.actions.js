@@ -1,9 +1,7 @@
-import { reportConstants } from '../_constants';
-import { reportService } from '../_services';
-
 export const dateRangeActions = {
     dateChange,
-    focusChange
+    focusChange,
+    resetDatePicker
 };
 
 const setFocusChange = data => ({
@@ -16,6 +14,13 @@ const setDateChange = data => ({
     payload: data,
 });
 
+
+
+const resetDateRange = () => ({
+    type: "resetDateRange",
+    payload: {},
+});
+
 function dateChange(data) {
     return dispatch => {
         dispatch(setDateChange(data));
@@ -23,8 +28,13 @@ function dateChange(data) {
 }
 
 function focusChange(data) {
-    console.log(data);
     return dispatch => {
         dispatch(setFocusChange(data));
+    };
+}
+
+function resetDatePicker() {
+    return dispatch => {
+        dispatch(resetDateRange());
     };
 }

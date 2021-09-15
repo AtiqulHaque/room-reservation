@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
 
 
         DB::statement('SET FOREIGN_KEY_CHECKS = 0');
-        $date = Carbon::now();
+        $date = Carbon::now()->subDay();
 
         for($i = 0; $i < 365; $i++){
             $date = $date->addDay();

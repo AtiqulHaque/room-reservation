@@ -1,11 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import 'react-notifications/lib/notifications.css';
-import {Button, Card, Container, Row,Col, Form} from "react-bootstrap";
-import {booking,dateRangeActions } from "../_actions";
+import {Container} from "react-bootstrap";
+import {booking, dateRangeActions} from "../_actions";
 import "../styles.css";
 import {DateRangeInput} from "@datepicker-react/styled";
-import { ThemeProvider } from "styled-components";
+import {ThemeProvider} from "styled-components";
 import moment from 'moment';
 
 
@@ -22,9 +22,10 @@ function mapDispatchToProps(dispatch) {
         loadDashBoard: article => dispatch(booking.loadDashboard(article)),
         dateChangeFun: data => dispatch(dateRangeActions.dateChange(data)),
         focusChangeFun: focusInput => dispatch(dateRangeActions.focusChange(focusInput)),
-        bookRoom: data => dispatch(booking.bookRoom(data)),
+        bookRoom: (data, callback) => dispatch(booking.bookRoom(data, callback)),
         checkAvailable: data => dispatch(booking.checkAvailable(data)),
-        setMessage: data => dispatch(booking.setMessage(data))
+        setMessage: data => dispatch(booking.setMessage(data)),
+        resetDatePicker: data => dispatch(dateRangeActions.resetDatePicker(data))
     };
 }
 
@@ -59,6 +60,7 @@ class App extends React.Component {
     hasError(key) {
         return this.state.errors.indexOf(key) !== -1;
     }
+
     handleSubmit(event) {
         event.preventDefault();
 
@@ -92,6 +94,10 @@ class App extends React.Component {
             reservation_date.push(m.format('YYYY-MM-DD'));
         }
 
+        if(reservation_date.length === 0){
+            errors.push("daterange");
+        }
+
         this.setState({
             errors: errors
         });
@@ -100,16 +106,27 @@ class App extends React.Component {
             return false;
         } else {
 
-            if(this.props.isAvailable){
+            if (this.props.isAvailable) {
                 this.props.bookRoom({
-                    lastname : this.state.lastname,
-                    firstname : this.state.firstname,
-                    email : this.state.email ,
-                    reservation_date :reservation_date
+                    lastname: this.state.lastname,
+                    firstname: this.state.firstname,
+                    email: this.state.email,
+                    reservation_date: reservation_date
+                }, () => {
+                    this.setState({
+                        lastname: "",
+                        firstname: "",
+                        email: ""
+                    });
+
+                    this.props.resetDatePicker();
+                    this.props.loadDashBoard();
                 });
+
+
             } else {
                 this.props.checkAvailable({
-                    reservation_date :reservation_date
+                    reservation_date: reservation_date
                 });
             }
 
@@ -122,9 +139,14 @@ class App extends React.Component {
 
     render() {
 
+        let blockDates = [];
+        this.props.reservations.map((data) => {
+            blockDates.push(new Date(data.reservation_date))
+        });
+
         let mesg = "";
 
-        if(this.props.message !== ""){
+        if (this.props.message !== "") {
 
             setTimeout(() => {
                 this.props.setMessage("")
@@ -133,20 +155,21 @@ class App extends React.Component {
             mesg = <ShowMessage msg={this.props.message}/>
         }
 
+        console.log(new Date(), moment().add(1, 'years').toDate());
         return (
             <div className='App'>
 
                 <Container fluid="md">
 
-                   {mesg}
+                    {mesg}
 
-                    <form className="row">
-                        <div className="col-lg-6">
-                            <label htmlFor="firstname">CheckIn and CheckOut Date</label>
+                    <form ref={form => this.form = form} className="row">
+                        <div className="col-lg-6 mt-2">
+                            <label htmlFor="daterange">CheckIn and CheckOut Date</label>
                             <ThemeProvider
                                 theme={{
                                     reactDatepicker: {
-                                        datepickerZIndex : 100000
+                                        datepickerZIndex: 100000
                                     }
                                 }}
                             >
@@ -156,13 +179,23 @@ class App extends React.Component {
                                     startDate={this.props.startDate} // Date or null
                                     endDate={this.props.endDate} // Date or null
                                     focusedInput={this.props.focusedInput} // START_DATE, END_DATE or null
-                                    unavailableDates={[new Date("2021-09-18")]}
+                                    unavailableDates={blockDates}
+                                    minBookingDate={new Date()}
+                                    maxBookingDate={moment().add(1, 'years').toDate()}
                                 />
 
                             </ThemeProvider>
+
+                            <div
+                                className={
+                                    this.hasError("daterange") ? "inline-errormsg" : "hidden"
+                                }
+                            >
+                                Please select CheckIN and CheckOut time
+                            </div>
                         </div>
 
-                        <div className="col-lg-6">
+                        <div className="col-lg-6 mt-2">
                             <label htmlFor="firstname">First Name</label>
                             <input
                                 autoComplete="off"
@@ -184,7 +217,7 @@ class App extends React.Component {
                             </div>
                         </div>
 
-                        <div className="col-lg-6">
+                        <div className="col-lg-6 mt-2">
                             <label htmlFor="firstname">Last Name</label>
                             <input
                                 autoComplete="off"
@@ -206,7 +239,7 @@ class App extends React.Component {
                             </div>
                         </div>
 
-                        <div className="col-lg-6">
+                        <div className="col-lg-6 mt-2">
                             <label htmlFor="email">Email</label>
                             <input
                                 autoComplete="off"
@@ -226,7 +259,7 @@ class App extends React.Component {
                             </div>
                         </div>
 
-                        <div className="col-lg-12  padd-top">
+                        <div className="col-lg-12  padd-top mt-3" >
                             <button className="btn btn-success" onClick={this.handleSubmit}>
                                 {this.props.buttonText}
                             </button>

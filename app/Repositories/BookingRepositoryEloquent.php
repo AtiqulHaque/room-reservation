@@ -108,7 +108,7 @@ class BookingRepositoryEloquent extends BaseRepository implements BookingReposit
      */
     public function getBookingListByMonth($startDate = null)
     {
-        return $this->all();
+        return $this->model->where('isBooked', true)->get();
     }
 
     /**

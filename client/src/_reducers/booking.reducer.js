@@ -31,10 +31,18 @@ export function booking(state = initialState, action) {
                 message: action.payload.message,
             });
 
+
+
+        case BookingConstants.BOOKING_SUBMIT_LOADING:
+            return Object.assign({}, state, {
+                buttonText: action.payload.buttonText
+            });
+
         case BookingConstants.BOOKING_SUBMIT_SUCCESS:
             return Object.assign({}, state, {
                 isAvailable: action.payload.isAvailable,
                 buttonText: action.payload.buttonText,
+                message: action.payload.message,
             });
         case BookingConstants.AVAILABLE_LOADING:
             return Object.assign({}, state, {
