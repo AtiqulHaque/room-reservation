@@ -1,0 +1,11 @@
+.idea
+/vendor
+/public/storage
+/public/sitemap.xml
+Homestead.yaml
+Homestead.json
+.env
+/public/upload/*
+/composer.phar
+#node
+node_modules

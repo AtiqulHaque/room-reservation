@@ -77,7 +77,7 @@ class BookingService implements BookingServiceContract
             && $reservationDetails->count() == 0) {
             return [
                 "status" => 'error',
-                'data'   => $response
+                'html'   => "Something went wrong"
             ];
         }
 
