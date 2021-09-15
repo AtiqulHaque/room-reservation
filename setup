@@ -24,3 +24,12 @@ echo "Generating table and seeds"
 
 $GENERATE_JWT_KEY
 
+
+echo -e "\nFrontend Browse :  http://localhost:3033\n"
+
+echo -e "Backend Browse :  http://localhost:8000/api\n"
+
+echo -e "Database Browse :  http://localhost:8085\n"
+
+echo -e "Database Credentials :  Server=my_db,  username=root,  password=your_mysql_root_password \n"
+
