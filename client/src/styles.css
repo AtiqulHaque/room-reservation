@@ -1,13 +1,21 @@
 
+body{
+    background: linear-gradient(#ffffff 50%, rgba(255,255,255,0) 0) 0 0,
+    radial-gradient(circle closest-side, #FFFFFF 53%, rgba(255,255,255,0) 0) 0 0,
+    radial-gradient(circle closest-side, #FFFFFF 50%, rgba(255,255,255,0) 0) 55px 0 #48B;
+    background-size: 110px 200px;
+    background-repeat: repeat-x;
+}
 form {
     padding: 45px;
+    margin-top: 220px !important;
 }
 .hidden {
     display: none;
 }
 
 .inline-errormsg {
-    color: red;
+    color: #500505;
     font-size: 12px;
 }
 
@@ -17,4 +25,36 @@ form {
     padding: 10px;
     text-align: center;
     background-color: #e5ca4f;
+}
+
+label[for="start_date"]{
+    width:350px ;
+}
+label[for="end_date"]{
+    width:355px ;
+}
+
+.custom-input{
+    padding: 25px;
+    font-size: 14px;
+    color: #c0c1c1 !important;
+}
+
+.custom-input::placeholder {
+    color: #666767 !important;
+}
+
+.form-control {
+     border-radius: 0 !important;
+    border: 3px solid #e5ca4f;
+    font-family: sans-serif;
+}
+button.btn.btn-submit.p-3 {
+    background-color: #0071c2;
+    border: 3px solid #e5ca4f;
+    color: #fff8f9;
+    font-weight: bold;
+}
+#start_date, #end_date{
+    border: 3px solid #e5ca4f;
 }

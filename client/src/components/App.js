@@ -32,7 +32,6 @@ function mapDispatchToProps(dispatch) {
 class App extends React.Component {
     constructor(props) {
         super(props);
-        this.handleChange = this.handleChange.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
 
@@ -50,11 +49,6 @@ class App extends React.Component {
         let obj = {};
         obj[key] = value;
         this.setState(obj);
-    }
-
-
-    handleChange() {
-
     }
 
     hasError(key) {
@@ -154,8 +148,6 @@ class App extends React.Component {
 
             mesg = <ShowMessage msg={this.props.message}/>
         }
-
-        console.log(new Date(), moment().add(1, 'years').toDate());
         return (
             <div className='App'>
 
@@ -165,7 +157,6 @@ class App extends React.Component {
 
                     <form ref={form => this.form = form} className="row">
                         <div className="col-lg-6 mt-2">
-                            <label htmlFor="daterange">CheckIn and CheckOut Date</label>
                             <ThemeProvider
                                 theme={{
                                     reactDatepicker: {
@@ -182,6 +173,8 @@ class App extends React.Component {
                                     unavailableDates={blockDates}
                                     minBookingDate={new Date()}
                                     maxBookingDate={moment().add(1, 'years').toDate()}
+                                    startDateInputId={"start_date"}
+                                    endDateInputId={"end_date"}
                                 />
 
                             </ThemeProvider>
@@ -191,21 +184,21 @@ class App extends React.Component {
                                     this.hasError("daterange") ? "inline-errormsg" : "hidden"
                                 }
                             >
-                                Please select CheckIN and CheckOut time
+                                Please select Start date and end date time
                             </div>
                         </div>
 
                         <div className="col-lg-6 mt-2">
-                            <label htmlFor="firstname">First Name</label>
                             <input
                                 autoComplete="off"
                                 className={
                                     this.hasError("firstname")
-                                        ? "form-control is-invalid"
-                                        : "form-control"
+                                        ? "form-control is-invalid custom-input"
+                                        : "form-control custom-input"
                                 }
                                 name="firstname"
                                 value={this.state.firstname}
+                                placeholder={"First name"}
                                 onChange={this.handleInputChange}
                             />
                             <div
@@ -218,15 +211,15 @@ class App extends React.Component {
                         </div>
 
                         <div className="col-lg-6 mt-2">
-                            <label htmlFor="firstname">Last Name</label>
                             <input
                                 autoComplete="off"
                                 className={
                                     this.hasError("lastname")
-                                        ? "form-control is-invalid"
-                                        : "form-control"
+                                        ? "form-control is-invalid custom-input"
+                                        : "form-control custom-input"
                                 }
                                 name="lastname"
+                                placeholder={"Last name"}
                                 value={this.state.lastname}
                                 onChange={this.handleInputChange}
                             />
@@ -240,16 +233,16 @@ class App extends React.Component {
                         </div>
 
                         <div className="col-lg-6 mt-2">
-                            <label htmlFor="email">Email</label>
                             <input
                                 autoComplete="off"
                                 className={
                                     this.hasError("email")
-                                        ? "form-control is-invalid"
-                                        : "form-control"
+                                        ? "form-control is-invalid custom-input"
+                                        : "form-control custom-input"
                                 }
                                 name="email"
                                 value={this.state.email}
+                                placeholder={"Email"}
                                 onChange={this.handleInputChange}
                             />
                             <div
@@ -259,8 +252,8 @@ class App extends React.Component {
                             </div>
                         </div>
 
-                        <div className="col-lg-12  padd-top mt-3" >
-                            <button className="btn btn-success" onClick={this.handleSubmit}>
+                        <div className="col-lg-12  padd-top mt-3 " >
+                            <button className="btn btn-submit p-3" onClick={this.handleSubmit}>
                                 {this.props.buttonText}
                             </button>
                         </div>
