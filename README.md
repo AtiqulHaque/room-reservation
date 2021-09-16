@@ -33,13 +33,9 @@ php composer install
 php artisan migrate --seed
 
 
-***Run any composer command***
+***Run booking command***
 
-docker-compose exec app composer list
-
-***Run any command***
-
-docker-compose exec php artisan _____
+docker-compose exec app php artisan book:rooms
 
 ***Run Unit Test***
 

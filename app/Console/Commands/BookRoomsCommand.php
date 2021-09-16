@@ -38,10 +38,10 @@ class BookRoomsCommand extends Command
      */
     public function handle()
     {
-        $firstName = $this->ask('First Name');
-        $lastName = $this->ask('Last Name');
-        $email = $this->ask('Email');
-        $reservation_date = $this->ask('Reservation date');
+        $firstName = $this->ask('Enter First Name');
+        $lastName = $this->ask('Enter Last Name');
+        $email = $this->ask('Enter Email');
+        $reservation_date = $this->ask('Enter reservation date like ["2021-09-15","2021-09-16"]');
         $reservation_date = json_decode($reservation_date);
 
         $bookingService = \App::make(BookingServiceContract::class);
@@ -53,6 +53,12 @@ class BookRoomsCommand extends Command
             "reservation_date" => $reservation_date,
         ]);
 
+        if(!empty($response['status']) && $response['status'] == 'success'){
+            $this->info("Your room has been successfully booked, Thanks.");
+        }else {
+            $this->error("Something went wrong, Please try again later");
+        }
+        $this->line('');
         return $response;
 
     }
