@@ -72,6 +72,8 @@
         "post-install-cmd": [
             "php artisan clear-compiled",
             "chmod -R 777 public/"
-        ]
+        ],
+        "phpcs": "phpcs --standard=PSR2 ./app",
+        "phpcbf": "phpcbf --standard=PSR2 ./app"
     }
 }

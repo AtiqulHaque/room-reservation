@@ -206,6 +206,4 @@ class BookingsController extends BaseController
 
         return $this->sendApiError($data['html']);
     }
-
-
 }

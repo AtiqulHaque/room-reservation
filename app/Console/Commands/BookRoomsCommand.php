@@ -47,19 +47,18 @@ class BookRoomsCommand extends Command
         $bookingService = \App::make(BookingServiceContract::class);
 
         $response = $bookingService->bookRoom([
-            "first_name" => $firstName,
-            "last_name" => $lastName,
-            "email" => $email,
+            "first_name"       => $firstName,
+            "last_name"        => $lastName,
+            "email"            => $email,
             "reservation_date" => $reservation_date,
         ]);
 
-        if(!empty($response['status']) && $response['status'] == 'success'){
+        if (!empty($response['status']) && $response['status'] == 'success') {
             $this->info("Your room has been successfully booked, Thanks.");
-        }else {
+        } else {
             $this->error("Something went wrong, Please try again later");
         }
         $this->line('');
         return $response;
-
     }
 }

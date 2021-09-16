@@ -58,7 +58,6 @@ class BookingRepositoryEloquent extends BaseRepository implements BookingReposit
                     $eachData->save();
                 });
             }
-
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error("Error occurred while booking", [$e]);

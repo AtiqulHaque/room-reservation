@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-expressions */
-/* eslint-disable no-restricted-globals */
 import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios';

@@ -12,5 +12,4 @@ class UserValidator extends AbstractLaravelValidator
             'email' => 'required|email',
         );
     }
-
 }

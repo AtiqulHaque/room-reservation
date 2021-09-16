@@ -53,5 +53,4 @@ class BaseController extends Controller
         $result = array_slice($words_in_text, 0, $words_to_return);
         return implode(" ", $result);
     }
-
 }

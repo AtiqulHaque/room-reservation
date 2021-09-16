@@ -79,5 +79,4 @@ class AbstractLaravelValidator extends Validator
     {
         return $this->errors;
     }
-
 }

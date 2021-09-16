@@ -50,7 +50,6 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
             if ($user) {
                 $user->fill($params);
                 $user->save();
-
             } else {
                 $user = $this->model->create($params);
             }
@@ -60,7 +59,6 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
         }
 
         DB::commit();
-
         return $user;
     }
 

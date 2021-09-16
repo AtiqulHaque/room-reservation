@@ -33,5 +33,4 @@ interface BookingRepository extends RepositoryInterface
      * @return mixed
      */
     public function bookingDetailsById($bookingId);
-
 }

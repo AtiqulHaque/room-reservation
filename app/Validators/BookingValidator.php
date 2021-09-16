@@ -18,5 +18,4 @@ class BookingValidator extends AbstractLaravelValidator
             'reservation_date' => 'required|array'
         );
     }
-
 }

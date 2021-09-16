@@ -10,5 +10,4 @@ interface UserRepository extends RepositoryInterface
      * @return mixed
      */
     public function createOrFetchUser(array $params = array());
-
 }
