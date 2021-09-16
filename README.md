@@ -17,7 +17,7 @@ After complete installation
 
 ***Database Browse :  http://localhost:8085***
 
-***Database Credentials :  Server=my_db,  username=root,  password=your_mysql_root_password*** 
+***Database Credentials :  System= PostgresSQL, Server=database,  username=postgres,  password=secret*** 
 
 
 
