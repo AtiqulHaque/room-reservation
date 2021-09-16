@@ -25,6 +25,7 @@
         "fakerphp/faker": "^1.9.1",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^3.0",
+        "overtrue/phplint": "^3.0",
         "phpunit/phpunit": "^8.5.8|^9.3.3",
         "squizlabs/php_codesniffer": "*"
     },
@@ -73,6 +74,7 @@
             "php artisan clear-compiled",
             "chmod -R 777 public/"
         ],
+        "phplint": "phplint --no-cache  ./app",
         "phpcs": "phpcs --standard=PSR2 ./app",
         "phpcbf": "phpcbf --standard=PSR2 ./app"
     }

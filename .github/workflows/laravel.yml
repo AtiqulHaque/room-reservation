@@ -33,3 +33,6 @@ jobs:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
       run: ./run-unit-test
+    - name: Run lint
+      run: composer phplint
+
