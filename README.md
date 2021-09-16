@@ -2,7 +2,7 @@
 **Instruction**
 
 If you have installed docker and docker compose  in your pc
-then just goto the project root folder then run this command
+then after clone the project just goto the project root folder then run this command
 
 ./setup
 
