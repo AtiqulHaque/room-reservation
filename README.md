@@ -11,7 +11,6 @@ Enter your root password
 After complete installation
 
 <br>
-<br>
 
 ***Frontend Browse :  http://localhost:3033***
 
@@ -66,3 +65,12 @@ Without docker you can install this project by this
 ***Run Phpcbf***
 
 - composer phpcbf
+
+<br>
+<br>
+
+***For Backend API check Postman collection***
+
+- Room_Reservation.postman_collection.json
+- Room-reservation-dev.postman_environment.json
+
