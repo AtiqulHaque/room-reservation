@@ -44,3 +44,15 @@ docker-compose exec app php artisan book:rooms
 ***Publish Documentation***
 
 docker-compose exec app php artisan l5-swagger:generate
+
+***Run Lint***
+
+composer phplint
+
+***Run Phpcs***
+
+composer phpcs
+
+***Run Phpcbf***
+
+composer phpcbf
