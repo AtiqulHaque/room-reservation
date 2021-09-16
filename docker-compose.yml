@@ -89,7 +89,7 @@ services:
       POSTGRES_PASSWORD: secret
       POSTGRES_DB: laravel_docker
     volumes:
-      - ./postgres-data:/var/lib/postgresql/data
+      - "dbpostdata:/var/lib/postgresql/data:z"
     ports:
       - '5432:5432'
     networks:
@@ -113,5 +113,7 @@ networks:
 #Volumes
 volumes:
   dbdata:
+    driver: local
+  dbpostdata:
     driver: local
   redis-data:
