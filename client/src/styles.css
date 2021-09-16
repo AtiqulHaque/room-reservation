@@ -27,12 +27,12 @@ form {
     background-color: #e5ca4f;
 }
 
-label[for="start_date"]{
-    width:350px ;
-}
-label[for="end_date"]{
-    width:355px ;
-}
+/*label[for="start_date"]{*/
+/*    width:350px ;*/
+/*}*/
+/*label[for="end_date"]{*/
+/*    width:355px ;*/
+/*}*/
 
 .custom-input{
     padding: 25px;
