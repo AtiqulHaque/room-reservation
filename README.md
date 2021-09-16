@@ -1,5 +1,5 @@
 
-**Instruction**
+ ### **Instruction**
 
 If you have installed docker and docker compose  in your pc
 then after clone the project just goto the project root folder then run this command
@@ -10,6 +10,8 @@ Enter your root password
 
 After complete installation
 
+<br>
+<br>
 
 ***Frontend Browse :  http://localhost:3033***
 
@@ -19,23 +21,31 @@ After complete installation
 
 ***Database Credentials :  System= PostgresSQL, Server=database,  username=postgres,  password=secret*** 
 
+<br>
+<br>
+
+
+For check Backend API check Postman collection
+
+- Room_Reservation.postman_collection.json
+- Room-reservation-dev.postman_environment.json
 
 
 
 Also you can create by Docker command
  
- docker-compose up -d --build
+ - docker-compose up -d --build
 
 Without docker you can install this project by this 
  
-php composer install
+- php composer install
 
-php artisan migrate --seed
+- php artisan migrate --seed
 
 
 ***Run booking command***
 
-docker-compose exec app php artisan book:rooms
+- docker-compose exec app php artisan book:rooms
 
 ***Run Unit Test***
 
@@ -43,16 +53,16 @@ docker-compose exec app php artisan book:rooms
 
 ***Publish Documentation***
 
-docker-compose exec app php artisan l5-swagger:generate
+- docker-compose exec app php artisan l5-swagger:generate
 
 ***Run Lint***
 
-composer phplint
+- composer phplint
 
 ***Run Phpcs***
 
-composer phpcs
+- composer phpcs
 
 ***Run Phpcbf***
 
-composer phpcbf
+- composer phpcbf
