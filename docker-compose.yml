@@ -81,6 +81,20 @@ services:
       - app-network
     command: npm start
 
+  database:
+    image: postgres
+    container_name: database
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: laravel_docker
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    networks:
+      - app-network
+
   adminer:
     image: adminer
     restart: always
