@@ -32,7 +32,7 @@ class BookRoomsCommand extends Command
     }
 
     /**
-     * Execute the console command.
+     * Execute the console command.    zip \
      *
      * @return mixed
      */

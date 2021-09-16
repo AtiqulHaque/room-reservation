@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
 
 
 
-        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+        Schema::disableForeignKeyConstraints();
         $date = Carbon::now()->subDay();
 
         for($i = 0; $i < 365; $i++){
@@ -34,6 +34,6 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
+        Schema::enableForeignKeyConstraints();
     }
 }
